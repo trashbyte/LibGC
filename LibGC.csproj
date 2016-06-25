@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F720FE95-F774-4E85-A40A-EDB931BA59DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LibGC</RootNamespace>
+    <AssemblyName>LibGC</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MiscUtil">
+      <HintPath>..\References\MiscUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Arc\ArcContainer.cs" />
+    <Compile Include="src\Arc\ArcFileSystemDirectory.cs" />
+    <Compile Include="src\Arc\ArcFileSystemEntry.cs" />
+    <Compile Include="src\Arc\ArcFileSystemFile.cs" />
+    <Compile Include="src\Arc\InvalidArcFileException.cs" />
+    <Compile Include="src\EndianBinaryReaderExtensions.cs" />
+    <Compile Include="src\EndianBinaryWriterExtensions.cs" />
+    <Compile Include="src\EnumUtils.cs" />
+    <Compile Include="src\GcGame.cs" />
+    <Compile Include="src\Gma\BoundingSphere.cs" />
+    <Compile Include="src\Gma\Gcmf.cs" />
+    <Compile Include="src\Gma\GcmfMaterial.cs" />
+    <Compile Include="src\Gma\GcmfMesh.cs" />
+    <Compile Include="src\Gma\GcmfRenderContext.cs" />
+    <Compile Include="src\Gma\GcmfTransformMatrix.cs" />
+    <Compile Include="src\Gma\GcmfTriangleStrip.cs" />
+    <Compile Include="src\Gma\GcmfTriangleStripGroup.cs" />
+    <Compile Include="src\Gma\GcmfType8Unknown1.cs" />
+    <Compile Include="src\Gma\GcmfVersionDetails.cs" />
+    <Compile Include="src\Gma\GcmfVertex.cs" />
+    <Compile Include="src\Gma\Gma.cs" />
+    <Compile Include="src\Gma\GmaEntry.cs" />
+    <Compile Include="src\Gma\InvalidGmaFileException.cs" />
+    <Compile Include="src\Lz\InvalidLzFileException.cs" />
+    <Compile Include="src\Lz\Lz.cs" />
+    <Compile Include="src\Lz\LzVersionDetails.cs" />
+    <Compile Include="src\ModelLoader\InvalidObjMtlFileException.cs" />
+    <Compile Include="src\ModelLoader\ObjMtlFace.cs" />
+    <Compile Include="src\ModelLoader\ObjMtlLoader.cs" />
+    <Compile Include="src\ModelLoader\ObjMtlMaterial.cs" />
+    <Compile Include="src\ModelLoader\ObjMtlMesh.cs" />
+    <Compile Include="src\ModelLoader\ObjMtlModel.cs" />
+    <Compile Include="src\ModelLoader\ObjMtlObject.cs" />
+    <Compile Include="src\ModelLoader\ObjMtlParser.cs" />
+    <Compile Include="src\ModelLoader\ObjMtlVertex.cs" />
+    <Compile Include="src\ModelRenderer\IRenderable.cs" />
+    <Compile Include="src\ModelRenderer\IRenderer.cs" />
+    <Compile Include="src\ModelRenderer\ITexture.cs" />
+    <Compile Include="src\ModelRenderer\ModelVertex.cs" />
+    <Compile Include="src\ModelRenderer\ObjMtlExporter.cs" />
+    <Compile Include="src\ModelRenderer\ObjMtlRenderer.cs" />
+    <Compile Include="src\ModelRenderer\OpenGlModelContext.cs" />
+    <Compile Include="src\ModelRenderer\OpenGlModelObjectInformation.cs" />
+    <Compile Include="src\ModelRenderer\OpenGlRenderer.cs" />
+    <Compile Include="src\NonNullableCollection.cs" />
+    <Compile Include="src\OrderedSet.cs" />
+    <Compile Include="src\PaddingUtils.cs" />
+    <Compile Include="src\StageLayout\InvalidStageLayoutFileException.cs" />
+    <Compile Include="src\StageLayout\StageLayout.cs" />
+    <Compile Include="src\StageLayout\StageLayoutBanana.cs" />
+    <Compile Include="src\StageLayout\StageLayoutCollision.cs" />
+    <Compile Include="src\StageLayout\StageLayoutGoal.cs" />
+    <Compile Include="src\StageLayout\StageLayoutItem.cs" />
+    <Compile Include="src\StageLayout\StageLayoutItemExt.cs" />
+    <Compile Include="src\StageLayout\StageLayoutModelName.cs" />
+    <Compile Include="src\StageLayout\StageLayoutUnk48.cs" />
+    <Compile Include="src\StageLayout\StageLayoutUnk50.cs" />
+    <Compile Include="src\StageLayout\StageLayoutUnk60.cs" />
+    <Compile Include="src\StageLayout\StageLayoutUnk70.cs" />
+    <Compile Include="src\Texture\ColorConversion.cs" />
+    <Compile Include="src\Texture\ColorRGBA.cs" />
+    <Compile Include="src\Texture\GcTextureFormat.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodec.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecCI14X2.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecCI4.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecCI8.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecCMPR.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecI4.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecI8.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecIA4.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecIA8.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecRGB565.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecRGB5A3.cs" />
+    <Compile Include="src\Texture\GcTextureFormatCodecRGBA8.cs" />
+    <Compile Include="src\Texture\GcTexturePaletteFormat.cs" />
+    <Compile Include="src\Texture\GcTexturePaletteFormatCodec.cs" />
+    <Compile Include="src\Texture\GcTexturePaletteFormatCodecIA8.cs" />
+    <Compile Include="src\Texture\GcTexturePaletteFormatCodecRGB565.cs" />
+    <Compile Include="src\Texture\GcTexturePaletteFormatCodecRGB5A3.cs" />
+    <Compile Include="src\Texture\StbDxt.cs" />
+    <Compile Include="src\Texture\Utils.cs" />
+    <Compile Include="src\Tpl\InvalidTplFileException.cs" />
+    <Compile Include="src\Tpl\Tpl.cs" />
+    <Compile Include="src\Tpl\TplTexture.cs" />
+    <Compile Include="src\Tpl\TplVersionDetails.cs" />
+    <Compile Include="src\Tree.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\Tpl\TplFormat.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

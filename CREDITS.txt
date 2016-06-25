@@ -1,0 +1,16 @@
+The credits for this project have gotten a bit convoluted, so here's a comprehensive list of code used in this project.
+
+If you see an issue with this list, contact me at github@trashbyte.io to fix it.
+
+
+
+Hugely based on gamezelda's gxgma/gxutils project, GPL v3
+
+Various info from yoshimaster96, public domain
+DXT1/DXT5 compressor by fabian "ryg" giesen, ported to C by stb, public domain
+
+Bounding Sphere based on http://stackoverflow.com/a/24818473, by Andres Hernandez.
+
+Tommy from StackOverflow, for the difference bewteen OBJ/GMA/OpenGL tex coords. See http://stackoverflow.com/a/5605027
+
+The creators of YAGCD (Yet Another GameCube Documentation) and Dolphin for providing information about the GameCube texture formats

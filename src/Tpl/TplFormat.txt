@@ -1,0 +1,105 @@
+﻿TPL File Format Spec
+--------------------
+Endian: Big endian
+Games: SMB1, SMB2, F-Zero GX
+
+Header
+------
+0x00 - 32 bit integer: Number of textures in the file
+0x04 - Array of texture headers (0x10 bytes per structure)
+
+After the texture header, the header is padded to be aligned to 32 bytes by a
+0x00 0x01 0x02 0x03 0x04 ... 0x1A 0x1B byte pattern.
+
+Texture header
+--------------
+0x00 - 32 bit integer: Texture format (same as Gamecube standard TPL formats. check out YAGCD)
+0x04 - 32 bit integer: Texture offset, absolute from the beginning of the file
+0x08 - 16 bit integer: Width of the main level of the texture
+0x0A - 16 bit integer: Height of the main level of the texture
+0x0C - 16 bit integer: Number of texture levels (aka. mipmaps)
+0x0E - 16 bit integer: Constant 0x1234
+
+Some textures are "empty" textures, i.e. they don't contain texture data.
+In those textures, the offset, width, height and number of texture levels is zero,
+while the texture format contains gibberish.
+
+Non-empty textures contain as many texture levels (aka. mipmaps) as specified in the header,
+packed consecutively starting at the offset specified in the header.
+
+We will refer to the set of bytes that encode all texture levels as the "texture buffer".
+The various games have problems with the texture buffer sizes, as explained below,
+but the format is otherwise identical.
+- Super Monkey Ball 1 TPL files are the best encoded TPL files, but there's one file (st137.tpl)
+  that has an incorrect texture buffer size.
+- F-Zero GX TPL files have a bug where the texture buffer size of the textures of CMPR format
+  is calculated incorrectly and texture data of the smallest texture levels is lost,
+  but all files follow the same pattern.
+- Super Monkey Ball 2 is a freaking mess without any hope of any pattern with its defective
+  texture buffer sizes.
+
+To read the textures buffer correctly, I recommend the following strategy to avoid reading into
+other texture buffers or overrunning the file size: Since the texture offsets in the texture
+headers are sorted by the order of appearance, you can calculate the size of a texture
+by looking into the next non-empty texture offset and calculating the difference.
+From there on, reserve a buffer of the correct size for the texture buffers, but only read into it
+as many bytes as there are in the texture.
+
+If you want to attempt to replicate the files as best as you can, continue reading below.
+
+The CMPR bug - Read this if you want to modify loading, saving or mipmapping
+----------------------------------------------------------------------------
+First off, this is going to be pretty technical. Try to inform yourself about TPLs and CMPR beforehand.
+This bug affects F-Zero GX. Super Monkey Ball 1 is not affected. Super Monkey Ball 2 is explained below.
+
+Some details about the CMPR format:
+- 4 bits per pixel.
+- The size of a tile is 8x8 (so 64 pixels per tile, 32 bytes per tile).
+- Each tile is divided in four 4x4 subtiles.
+
+The division of each tile in four 4x4 tiles is a format internal detail.
+The right way is to just use 8x8 and let the decoder/encoder handle the rest.
+
+Normally, the way to calculate the size of a CMPR texture/mipmap is:
+- Make the width and height multiples of 8.
+- Calculate the size: width * height * (4 / 8).
+
+However, it looks like the programmers of F-Zero GX got misguided by the 4x4 subtiles detail.
+This is how they implemented it:
+- Make the width and height multiples of 4.
+- Calculate the size: width * height * (4 / 8).
+- Make the size multiple of 32.
+
+That last step was likely added as a workaround when they noticed that something wasn't right.
+It has been checked with all the files of the game that this is indeed the way it works.
+
+***
+
+The problem with this bug is that it underallocates the required buffer to store the texture and mipmaps.
+(Side note: Square textures are not affected by this bug, since the two algorithms are identical for them).
+
+So how was this fixed? It's hard to tell, but it looks like the textures and mipmaps are encoded correctly.
+But if they are encoded correctly, how do they fit into the buffer, which has been underallocated?
+
+It looks like at this point the programmers just decided to add yet another workaround.
+It looks like they ended up checking if the image fits in the buffer, and if it doesn't, quit.
+
+The result is that some of the smallest mipmaps are not encoded.
+I'm not sure how the game handles this, probably they are too small and/or unused, so it doesn't really matter.
+
+The way we solve it is:
+- When reading, we create a buffer of "good size" bytes, but only read "bad size" bytes.
+- When writing, we only write "bad size" bytes from the buffer.
+
+***
+
+As explained above, this bug only affects F-Zero GX. Super Monkey Ball 1 mipmaps are encoded correctly.
+So what happens with Super Monkey Ball 2? It's a huge mess.
+
+Some CMPR textures are encoded with the correct size (as in Super Monkey Ball 1), while some
+CMPR textures are encoded with the incorrect size (as in F-Zero GX).
+Furthermore, even a few non-CMPR textures are encoded with an incorrect size.
+All of this happens at random. You can find pairs of two textures with the same format,
+width, height, and level count, yet still a different size.
+At this point, I think it's time to just ignore it, read it as best as we can, and
+write it with the correct sizes (as in Super Monkey Ball 1).
